@@ -11,7 +11,7 @@ import threading
 import time
 import logging
 
-from os.path import splitext
+from os.path import splitext, basename
 from pydub import AudioSegment
 
 AWS_REGION_NAME = "eu-west-1"
@@ -20,7 +20,6 @@ AWS_SECRET_KEY = "AWS_SECRET_KEY_TO_BE_FILLED"
 
 S3_BUCKET = "oso-ari"
 
-GB = 1024 ** 3
 MB = 1024 ** 2
 
 # Create s3 client
@@ -40,6 +39,21 @@ config = TransferConfig(
 )
 
 
+# Extract serial from cpuinfo file
+def getSerial():
+    cpuserial = "0000000000000000"
+    try:
+        f = open("/proc/cpuinfo", "r")
+        for line in f:
+            if line[0:6] == "Serial":
+                cpuserial = line[10:26]
+        f.close()
+    except:
+        cpuserial = "ERROR000000000"
+
+    return cpuserial
+
+
 def wav2flac(wav_file):
     flac_file = "%s.flac" % splitext(wav_file)[0]
     song = AudioSegment.from_wav(wav_file)
@@ -48,8 +62,9 @@ def wav2flac(wav_file):
 
 
 def compress_and_upload_file(wav_file):
-    flac_name = wav2flac(wav_file)
-    s3_client.upload_file(flac_name, S3_BUCKET, flac_name, Config=config)
+    flac_path = wav2flac(wav_file)
+    file_name = getSerial() + "/" + basename(flac_path)
+    s3_client.upload_file(flac_path, S3_BUCKET, file_name, Config=config)
 
 
 if __name__ == "__main__":

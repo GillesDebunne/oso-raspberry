@@ -34,16 +34,18 @@ sudo systemctl enable oso_record
 
 
 echo "$(tput setaf 4)--- S3 uploader ---$(tput sgr0)" 
-pip install boto3
-pip install pydub
-sudo apt install --yes ffmpeg
+sudo apt install --yes python3-pip ffmpeg
+pip3 install boto3
+pip3 install pydub
 
 cd ~/oso-raspberry
 cp oso_upload.sh ~/
-cat upload.py | sed -e 's/AWS_ACCESS_KEY_TO_BE_FILLED/"${AWS_ACCESS_KEY}"/' | sed -e 's/AWS_SECRET_KEY_TO_BE_FILLED/"${AWS_SECRET_KEY}"/' > ~/upload.py
+cat upload.py | sed -e "s#AWS_ACCESS_KEY_TO_BE_FILLED#${AWS_ACCESS_KEY}#" | sed -e "s#AWS_SECRET_KEY_TO_BE_FILLED#${AWS_SECRET_KEY}#" > ~/upload.py
 chmod 744 ~/upload.py
 sudo cp oso_upload.service /lib/systemd/system/
 sudo systemctl enable oso_upload
 
 
-echo "$(tput setaf 2)--- INSTALLATION SUCCESSFULL ---$(tput sgr0)"
+echo "$(tput setaf 2)--- INSTALLATION SUCCESSFULL, REBOOTING ---$(tput sgr0)"
+
+sudo reboot
