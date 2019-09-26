@@ -1,0 +1,11 @@
+[Unit]
+Description=OSO Sound recorder
+
+[Service]
+Type=idle
+Restart=always
+User=pi
+ExecStart=/bin/bash /home/pi/oso_record.sh
+
+[Install]
+WantedBy=multi-user.target
