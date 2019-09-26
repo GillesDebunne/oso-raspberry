@@ -1,0 +1,11 @@
+[Unit]
+Description=OSO Sound uploader
+
+[Service]
+Type=idle
+Restart=always
+User=pi
+ExecStart=/bin/bash /home/pi/oso_upload.sh
+
+[Install]
+WantedBy=multi-user.target

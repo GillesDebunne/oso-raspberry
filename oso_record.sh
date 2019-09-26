@@ -1,4 +1,6 @@
-#/bin/bash
+#!/usr/bin/env bash
+
+set -euo pipefail
 
 DIR=${HOME}/records
 
@@ -8,7 +10,7 @@ while true
 do
   if [ $(arecord -l | wc -l) -gt 1 ]
   then
-    arecord -D sysdefault:CARD=1 -f S32_LE -r 16000 ${DIR}/record_$(date -u +"%Y-%m-%dT%H:%M:%SZ").wav
+    arecord -D sysdefault:CARD=1 -f S16_LE -r 16000 ${DIR}/$(date -u +"%Y-%m-%dT%H:%M:%SZ").wav
     break
   else
     echo "waiting for microphone"

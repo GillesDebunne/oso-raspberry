@@ -2,6 +2,8 @@
 
 Configuration scripts for OSO raspberry
 
+Procédure semi-manuelle, à complètement automatiser à terme (cf [pi-gen](https://github.com/RPi-Distro/pi-gen)).
+
 # Raspbian
 
 En partant d’une carte SD vierge, suivre les instructions sur le [site de rapsberry](https://www.raspberrypi.org/documentation/installation/installing-images/README.md).
@@ -61,7 +63,7 @@ Mot de passe `raspberry`
 
 # Installation
 
-Une fois connecté en ssh au Pi, copier ces commandes dans le terminal.
+Une fois connecté en ssh au Pi, copier ces commandes dans le terminal, en renseignant les clefs AWS manquantes :
 
 ```
 sudo dpkg-reconfigure tzdata
@@ -69,10 +71,13 @@ sudo dpkg-reconfigure tzdata
 sudo apt-get update
 sudo apt-get upgrade
 
-sudo apt-get install git
+sudo apt-get install --yes git
 
 git clone https://github.com/GillesDebunne/oso-raspberry.git
-sudo oso-raspberry/install.sh
+
+export AWS_ACCESS_KEY="AK................3S"
+export AWS_SECRET_KEY="zg....................................cT"
+oso-raspberry/install.sh
 
 sudo reboot
 ```
