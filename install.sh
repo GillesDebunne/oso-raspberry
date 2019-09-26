@@ -46,6 +46,14 @@ sudo cp oso_upload.service /lib/systemd/system/
 sudo systemctl enable oso_upload
 
 
+echo "$(tput setaf 4)--- Wifi configurator ---$(tput sgr0)" 
+cd
+git clone https://github.com/jasbur/RaspiWiFi.git
+cd RaspiWiFi
+cp ../oso-raspberry/raspWifiSetup.py .
+sudo python3 raspWifiSetup.py
+
+
 echo "$(tput setaf 2)--- INSTALLATION SUCCESSFULL, REBOOTING ---$(tput sgr0)"
 
 sudo reboot
