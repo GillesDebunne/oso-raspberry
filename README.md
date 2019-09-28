@@ -69,15 +69,34 @@ Une fois connecté en ssh au Pi, copier ces commandes dans le terminal, en rense
 sudo dpkg-reconfigure tzdata
 
 sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get --yes upgrade
 
 sudo apt-get install --yes git
 
-git clone https://github.com/GillesDebunne/oso-raspberry.git
+git clone --depth 1 https://github.com/GillesDebunne/oso-raspberry.git
 
 export AWS_ACCESS_KEY="AK................3S"
 export AWS_SECRET_KEY="zg....................................cT"
-oso-raspberry/install.sh
 
-sudo reboot
+oso-raspberry/install.sh
 ```
+
+# Configuration
+
+Si tout a fonctionné, le Pi a redémarré. Un réseau "_OSO ARI xxxx_" doit être visible dans la liste des réseaux Wifi. S'y connecter, et mettre l'URL `10.0.0.1` dans le navigateur.
+
+Dans l'interface qui s'affiche, choisir le réseau auquel on souhaite que le Pi se connecte et saisir le mot de passe associé.
+
+# Install Mac Gilles
+
+Pour référence, les commandes que je fais pour flasher ma carte SD vierge.
+
+```
+diskutil list # Make sure card is disk2
+diskutil unmountDisk /dev/disk2
+sudo dd bs=1m if=~/Downloads/2019-07-10-raspbian-buster-lite.img of=/dev/rdisk2 conv=sync
+touch /Volumes/boot/ssh
+sudo diskutil eject /dev/rdisk2
+```
+
+Activer 'Internet sharing' dans les Préférences Système, 'on' 'Apple USB Ethernet Adapter'.

@@ -2,7 +2,10 @@
 
 set -euo pipefail
 
+echo "$(tput setaf 4)-----------------------------$(tput sgr0)"
 echo "$(tput setaf 4)--- OSO Raspberry install ---$(tput sgr0)"
+echo "$(tput setaf 4)-----------------------------$(tput sgr0)"
+echo
 
 if [ -z "${AWS_ACCESS_KEY:-}" ]
 then
@@ -21,34 +24,27 @@ fi
 
 echo "$(tput setaf 4)--- SEEED microphone driver ---$(tput sgr0)"
 cd
-git clone https://github.com/respeaker/seeed-voicecard.git
+git clone --depth 1 https://github.com/respeaker/seeed-voicecard.git
 cd seeed-voicecard
 sudo ./install.sh
 
 
-echo "$(tput setaf 4)--- local full recorder ---$(tput sgr0)" 
-cd ~/oso-raspberry
-cp oso_record.sh ~/
-sudo cp oso_record.service /lib/systemd/system/
-sudo systemctl enable oso_record
-
-
-echo "$(tput setaf 4)--- S3 uploader ---$(tput sgr0)" 
+echo "$(tput setaf 4)--- OSO recorder ---$(tput sgr0)" 
 sudo apt install --yes python3-pip ffmpeg
 pip3 install boto3
 pip3 install pydub
 
 cd ~/oso-raspberry
-cp oso_upload.sh ~/
+cp oso_record.sh ~/
 cat upload.py | sed -e "s#AWS_ACCESS_KEY_TO_BE_FILLED#${AWS_ACCESS_KEY}#" | sed -e "s#AWS_SECRET_KEY_TO_BE_FILLED#${AWS_SECRET_KEY}#" > ~/upload.py
 chmod 744 ~/upload.py
-sudo cp oso_upload.service /lib/systemd/system/
-sudo systemctl enable oso_upload
+sudo cp oso_record.service /lib/systemd/system/
+sudo systemctl enable oso_record
 
 
 echo "$(tput setaf 4)--- Wifi configurator ---$(tput sgr0)" 
 cd
-git clone https://github.com/jasbur/RaspiWiFi.git
+git clone --depth 1 https://github.com/jasbur/RaspiWiFi.git
 cd RaspiWiFi
 cp ../oso-raspberry/raspWifiSetup.py .
 sudo python3 raspWifiSetup.py
