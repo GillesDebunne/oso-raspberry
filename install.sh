@@ -47,7 +47,16 @@ cd
 git clone --depth 1 https://github.com/jasbur/RaspiWiFi.git
 cd RaspiWiFi
 cp ../oso-raspberry/raspWifiSetup.py .
-sudo python3 raspWifiSetup.py
+# Disabled for now since it interfers with the recording
+#sudo python3 raspWifiSetup.py
+
+
+echo "$(tput setaf 4)--- LED ---$(tput sgr0)" 
+pip3 install pixel_ring gpiozero
+cd ~/oso-raspberry
+cp oso_led.py ~/
+sudo cp oso_led.service /lib/systemd/system/
+sudo systemctl enable oso_led
 
 
 echo "$(tput setaf 2)--- INSTALLATION SUCCESSFULL, REBOOTING ---$(tput sgr0)"
