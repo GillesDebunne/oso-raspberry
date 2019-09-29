@@ -43,8 +43,11 @@ def is_connected():
 
 
 def has_ssid():
-    ssid = check_output(["iwgetid", "-r"]).decode("utf-8")
-    return len(ssid) > 0
+    f = open("/etc/wpa_supplicant/wpa_supplicant.conf", "r")
+    for line in f.readlines():
+        if 'ssid="' in line:
+            return True
+    return False
 
 
 if __name__ == "__main__":
