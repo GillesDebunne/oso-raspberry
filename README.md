@@ -89,14 +89,6 @@ Dans l'interface qui s'affiche, choisir le réseau auquel on souhaite que le Pi 
 
 # Install Mac Gilles
 
-Pour référence, les commandes que je fais pour flasher ma carte SD vierge.
+Cf `flashSDMac.sh`
 
-```
-diskutil list # Make sure card is disk2
-diskutil unmountDisk /dev/disk2
-sudo dd bs=1m if=~/Downloads/2019-07-10-raspbian-buster-lite.img of=/dev/rdisk2 conv=sync
-touch /Volumes/boot/ssh
-sudo diskutil eject /dev/rdisk2
-```
-
-Activer 'Internet sharing' dans les Préférences Système, 'on' 'Apple USB Ethernet Adapter'.
+Activer 'Internet sharing' dans les Préférences Système, 'on' 'Apple USB Ethernet Adapter' pour que le Pi utilise la connexion internet du Mac.
