@@ -83,9 +83,7 @@ oso-raspberry/install.sh
 
 # Configuration
 
-Si tout a fonctionné, le Pi a redémarré. Un réseau "_OSO ARI xxxx_" doit être visible dans la liste des réseaux Wifi. S'y connecter, et mettre l'URL `10.0.0.1` dans le navigateur.
-
-Dans l'interface qui s'affiche, choisir le réseau auquel on souhaite que le Pi se connecte et saisir le mot de passe associé.
+Dans l'EHPAD, démarrer le pi branché sur un écran, avec clavier et souris. S'y connecter et régler le Wifi en tapant `sudo raspi-config`. Choisir l'option `2 Network Options`, puis `N2 Wi-fi`, et suivre les instructions.
 
 # Install Mac Gilles
 
