@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
-
 diskutil list | grep "/dev/disk2 (external, physical)"
 
 if [ $? -ne 0 ]

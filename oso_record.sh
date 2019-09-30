@@ -12,7 +12,7 @@ then
   while true
   do
     WAV=${DIR}/$(date -u +"%Y-%m-%dT%H:%M:%SZ").wav
-    arecord -D sysdefault:CARD=1 -f S16_LE -r 16000 -d ${DURATION} ${WAV}
+    arecord -Dac108 -f S16_LE -r 16000 -c 4 -d ${DURATION} ${WAV}
     ${HOME}/upload.py ${WAV} &
   done
 else
