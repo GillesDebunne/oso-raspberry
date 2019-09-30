@@ -57,6 +57,7 @@ cd ~/oso-raspberry
 cp oso_led.py ~/
 sudo cp oso_led.service /lib/systemd/system/
 sudo systemctl enable oso_led
+sudo chmod 644 /etc/wpa_supplicant/wpa_supplicant.conf
 
 
 echo "$(tput setaf 2)--- INSTALLATION SUCCESSFULL, REBOOTING ---$(tput sgr0)"
