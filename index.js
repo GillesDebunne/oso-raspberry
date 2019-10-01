@@ -22,18 +22,20 @@ firebase.initializeApp(firebaseConfig);
 var serialId = "SERIAL_ID_TO_BE_FILLED";
 
 // Presence process
-var historyRef = firebase.database().ref("presence/recorder/" + serialId);
-var onlineRef = firebase.database().ref("presence/recorder/online");
+var recorderPresence = firebase.database().ref("presence/recorder");
+var historyRef = recorderPresence.child("history/" + serialId);
+var statusRef = recorderPresence.child("status/" + serialId);
 
 var connectedRef = firebase.database().ref(".info/connected");
 connectedRef.on("value", function(snap) {
   if (snap.val() === true) {
-    // We're connected (or reconnected)! Do anything here that should happen only if online (or on reconnect)
-    var online = onlineRef.push();
-    // When I disconnect, remove this device
-    online.onDisconnect().remove();
-    // Add this device to my online connections list
-    online.set({ id: serialId, ts: firebase.database.ServerValue.TIMESTAMP });
+    statusRef
+      .onDisconnect()
+      .set({ online: false, ts: firebase.database.ServerValue.TIMESTAMP });
+    statusRef.set({
+      online: true,
+      ts: firebase.database.ServerValue.TIMESTAMP
+    });
 
     // Log connection history
     var history = historyRef.push();
