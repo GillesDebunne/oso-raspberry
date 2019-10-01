@@ -36,19 +36,10 @@ pip3 install pydub
 
 cd ~/oso-raspberry
 cp oso_record.sh ~/
-cat upload.py | sed -e "s#AWS_ACCESS_KEY_TO_BE_FILLED#${AWS_ACCESS_KEY}#" | sed -e "s#AWS_SECRET_KEY_TO_BE_FILLED#${AWS_SECRET_KEY}#" > ~/upload.py
+sed -e "s#AWS_ACCESS_KEY_TO_BE_FILLED#${AWS_ACCESS_KEY}#" upload.py | sed -e "s#AWS_SECRET_KEY_TO_BE_FILLED#${AWS_SECRET_KEY}#" > ~/upload.py
 chmod 744 ~/upload.py
 sudo cp oso_record.service /lib/systemd/system/
 sudo systemctl enable oso_record
-
-
-echo "$(tput setaf 4)--- Wifi configurator ---$(tput sgr0)" 
-cd
-git clone --depth 1 https://github.com/jasbur/RaspiWiFi.git
-cd RaspiWiFi
-cp ../oso-raspberry/raspWifiSetup.py .
-# Disabled for now since it interfers with the recording
-#sudo python3 raspWifiSetup.py
 
 
 echo "$(tput setaf 4)--- LED ---$(tput sgr0)" 
@@ -58,6 +49,19 @@ cp oso_led.py ~/
 sudo cp oso_led.service /lib/systemd/system/
 sudo systemctl enable oso_led
 sudo chmod 644 /etc/wpa_supplicant/wpa_supplicant.conf
+
+
+echo "$(tput setaf 4)--- Presence ---$(tput sgr0)" 
+curl -sL https://deb.nodesource.com/setup_10.x | sudo bash -
+sudo apt-get install --yes nodejs
+cd ~/oso-raspberry
+SERIAL=$(cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2)
+sed -e "s#SERIAL_ID_TO_BE_FILLED#${SERIAL}#" index.js > ~/index.js
+cp package.json ~/
+sudo cp oso_presence.service /lib/systemd/system/
+cd
+npm install
+sudo systemctl enable oso_presence
 
 
 echo "$(tput setaf 2)--- INSTALLATION SUCCESSFULL, REBOOTING ---$(tput sgr0)"

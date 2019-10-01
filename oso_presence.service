@@ -1,0 +1,12 @@
+[Unit]
+Description=OSO Presence service
+After=networking.service
+
+[Service]
+Type=idle
+Restart=always
+User=pi
+ExecStart=/usr/bin/node /home/pi/index.js
+
+[Install]
+WantedBy=multi-user.target

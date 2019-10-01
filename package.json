@@ -1,0 +1,11 @@
+{
+  "name": "oso-ari",
+  "version": "1.0.0",
+  "description": "OSO ARI presence service",
+  "main": "index.js",
+  "author": "OSO",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^7.0.0"
+  }
+}
